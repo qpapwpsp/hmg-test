@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -31,7 +32,7 @@ public class EmployeeController {
         List<Employee> employees = employeeService.getAll();
         
         model.addAttribute("employees", employees);
-        return "employees"; // → employees.jsp
+        return "employees"; // employees.jsp
     }
     
     @GetMapping("/search")
@@ -47,15 +48,30 @@ public class EmployeeController {
         return "employees";
     }
 
-    @GetMapping("/{id}")
-    public Employee getById(@PathVariable Long id) {
-        return employeeService.getById(id);
+    @GetMapping("/newEmployee")
+    public String showCreateForm(Model model) {
+        model.addAttribute("employee", new Employee());
+        return "employees_new";
+    }
+    
+    // 직원 등록 처리
+    @PostMapping("/create")
+    public String create(@RequestBody Employee employee) {
+    	return "redirect:/employees";
+    }
+    
+    // 직원 등록 처리
+    @PostMapping
+    public String createEmployee(@ModelAttribute Employee employee, Model model) {
+        try {
+            employeeService.create(employee);
+            return "redirect:/employees"; // 등록 후 목록 페이지로 리다이렉트
+        } catch (Exception e) {
+            model.addAttribute("error", "등록 실패: " + e.getMessage());
+            return "employee_new";
+        }
     }
 
-    @PostMapping
-    public Employee create(@RequestBody Employee employee) {
-        return employeeService.create(employee);
-    }
 
     @PutMapping("/{id}")
     public Employee update(@PathVariable Long id, @RequestBody Employee employee) {
