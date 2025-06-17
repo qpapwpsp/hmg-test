@@ -1,7 +1,11 @@
 package com.hmg.as.test.hmg_test.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.time.LocalDate;
  
@@ -11,38 +15,41 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long employee_id;
+    @Column(name="employee_id")
+    private Long employeeId;
 
-    @Column(nullable = false, length = 50)
-    private String first_name;
+    @Column(name="first_name", nullable = false, length = 50)
+    private String firstName;
 
-    @Column(nullable = false, length = 50)
+    @Column(name="last_name", nullable = false, length = 50)
     private String lastName;
 
-    @Column(nullable = false, unique = true, length = 100)
+    @Column(name="email", nullable = false, unique = true, length = 100)
     private String email;
 
-    @Column(length = 20)
+    @Column(name="phone_number",length = 20)
     private String phoneNumber;
 
-    @Column(nullable = false)
+    @Column(name="hire_date",nullable = false)
     private LocalDate hireDate;
 
-    @Column(nullable = false, length = 100)
+    @Column(name="job_title", nullable = false, length = 100)
     private String jobTitle;
-
+    
+    @Column(name="department_id")
     private Integer departmentId;
 
-    @Column(nullable = false)
+    @Column(name="is_active", nullable = false)
     private Boolean isActive = true;
 
+    @Column(name="created_at")
     private LocalDateTime createdAt;
 
+    @Column(name="updated_at")
     private LocalDateTime updatedAt;
 
     @PrePersist

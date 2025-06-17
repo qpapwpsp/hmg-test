@@ -2,6 +2,8 @@ package com.hmg.as.test.hmg_test.controller;
 
 import java.util.List;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,12 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hmg.as.test.hmg_test.entity.Employee;
 import com.hmg.as.test.hmg_test.service.EmployeeService;
 
-@RestController
+@Controller
 @RequestMapping("/employees")
 public class EmployeeController {
 	
@@ -24,9 +26,25 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
     
-    @GetMapping
-    public List<Employee> getAll() {
-        return employeeService.getAll();
+    @GetMapping()
+    public String viewEmployeeList(Model model) {
+        List<Employee> employees = employeeService.getAll();
+        
+        model.addAttribute("employees", employees);
+        return "employees"; // → employees.jsp
+    }
+    
+    @GetMapping("/search")
+    public String searchById(@RequestParam("id") Long id, Model model) {
+        try {
+            Employee employee = employeeService.getById(id);
+            model.addAttribute("employee", employee);
+            model.addAttribute("employees", employeeService.getAll());
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", "해당 ID의 직원이 존재하지 않습니다.");
+            model.addAttribute("employees", employeeService.getAll());
+        }
+        return "employees";
     }
 
     @GetMapping("/{id}")
