@@ -25,9 +25,8 @@ public class HmgTestApplication {
 
 		tx.begin();
 
-		EnRoInfo roInfo = new EnRoInfo("203000", "202506W0001");
-		
-		em.persist(roInfo);
+		//EnRoInfo roInfo = new EnRoInfo("203000", "202506W0001");
+		//em.persist(roInfo);
 
 		tx.commit();
 
