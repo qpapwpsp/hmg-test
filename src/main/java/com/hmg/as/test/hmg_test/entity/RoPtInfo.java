@@ -13,16 +13,22 @@ import lombok.ToString;
 @Entity
 @Setter
 @Getter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "T_PART_MST")
-public class PartMst {
+@ToString
+@Table(name = "T_RO_PART_INFO")
+public class RoPtInfo {
 
 	@Id
-	@Column(name = "PT_NO", nullable = false, length = 10)
+	@Column(name = "ASN_NO")
+	private String asnNo;
+
+	@Id
+	@Column(name = "RO_NO")
+	private String roNo;
+
+	@Id
+	@Column(name = "PT_NO")
 	private String ptNo;
 
-	@Column(name = "PT_NM", nullable = true, length = 100)
-	private String ptNm;
 }
