@@ -101,5 +101,12 @@ public class EnrollmentController {
         return ResponseEntity.ok(result);
     }
     
+    @GetMapping("/course/studentCountWithSubQuery")
+    @Operation(summary = "과목당 학생수 조회(subQuery사용)", description = "과목당 학생수를 조회합니다(subQuery사용)")
+    public ResponseEntity<List<CourseVo>> getCourseWithStudentCountWithSubQuery() {
+        List<CourseVo> result = enrollmentService.getCourseWithStudentCountWithSubQuery();
+        return ResponseEntity.ok(result);
+    }
+    
     
 }

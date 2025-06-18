@@ -153,4 +153,11 @@ public class EnrollmentServiceImple implements EnrollmentService {
 		return courseRepository.getCourseWithStudentCount();
 	}
 
+
+	@Override
+	public List<CourseVo> getCourseWithStudentCountWithSubQuery() {
+		// TODO Auto-generated method stub
+		return courseRepository.getCourseWithStudentCountWithSubQuery();
+	}
+
 }
