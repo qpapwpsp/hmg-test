@@ -2,6 +2,7 @@ package com.hmg.as.test.hmg_test.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Employee {
 
     @Id
@@ -39,9 +41,6 @@ public class Employee {
 
     @Column(name="job_title", nullable = false, length = 100)
     private String jobTitle;
-    
-    @Column(name="department_id")
-    private Integer departmentId;
 
     @Column(name="is_active", nullable = false)
     private Boolean isActive = true;
@@ -61,4 +60,8 @@ public class Employee {
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id")  // FK 컬럼
+    private Department department;
 }
