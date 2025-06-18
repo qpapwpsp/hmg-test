@@ -2,7 +2,6 @@ package com.hmg.as.test.hmg_test.vo;
 
 
 
-import com.hmg.as.test.hmg_test.repository.ProfessorRepository;
 import com.querydsl.core.annotations.QueryProjection;
 
 import io.swagger.v3.oas.annotations.media.Schema;
