@@ -20,6 +20,7 @@ import com.hmg.as.test.hmg_test.vo.CourseVo;
 import com.hmg.as.test.hmg_test.vo.EnrollVo;
 import com.hmg.as.test.hmg_test.vo.ProfessorVo;
 import com.hmg.as.test.hmg_test.vo.StudentVo;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import jakarta.transaction.Transactional;
 
@@ -29,13 +30,17 @@ public class EnrollmentServiceImple implements EnrollmentService {
 	private final EnrollmentRepository enrollmentRepository;
 	private final StudentRepository studentRepository;
 	private final CourseRepository courseRepository;
-	private final ProfessorRepository professorRepository;
+//	private final CourseRepositoryImpl courseRepositoryImpl;
+	private final ProfessorRepository professorRepository;	
+	private final JPAQueryFactory queryFactory;
 	
-	public EnrollmentServiceImple(EnrollmentRepository enrollmentRepository,StudentRepository studentRepository,CourseRepository courseRepository,ProfessorRepository professorRepository) {
+	public EnrollmentServiceImple(EnrollmentRepository enrollmentRepository,StudentRepository studentRepository,CourseRepository courseRepository,ProfessorRepository professorRepository ,JPAQueryFactory queryFactory) {
         this.enrollmentRepository = enrollmentRepository;
         this.studentRepository = studentRepository;
         this.courseRepository = courseRepository;
         this.professorRepository= professorRepository;
+        this.queryFactory = queryFactory;
+      //  this.courseRepositoryImpl=courseRepositoryImpl;
     }
 	
 	
@@ -139,6 +144,13 @@ public class EnrollmentServiceImple implements EnrollmentService {
 		// TODO Auto-generated method stub
 		Professor professor = ProfessorMapper.toEntity(professorVo);
 	     return professorRepository.save(professor).getId();
+	}
+
+
+	@Override
+	public List<CourseVo> getCourseWithStudentCount() {
+		// TODO Auto-generated method stub
+		return courseRepository.getCourseWithStudentCount();
 	}
 
 }

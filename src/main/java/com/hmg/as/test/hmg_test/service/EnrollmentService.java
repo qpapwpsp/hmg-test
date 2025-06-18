@@ -17,5 +17,5 @@ public interface EnrollmentService {
 	void updateCourseTitle(Long courseId, CourseVo courseVo);
 	void deleteCourse(Long courseId);
 	void deleteStudent(Long studentId);
-//	List<CourseVo> getCourseWithStudentCount();
+	List<CourseVo> getCourseWithStudentCount();
 }
