@@ -23,7 +23,6 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor 
 @NoArgsConstructor
-
 public class Course {
     @Id @GeneratedValue
     private Long id;

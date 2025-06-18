@@ -93,7 +93,7 @@ public class EnrollmentController {
     	enrollmentService.deleteCourse(courseId);
         return "Course deleted: ID = " + courseId;
     }
-    
+//    
 //    @GetMapping("/course/studentCount")
 //    @Operation(summary = "과목당 학생수 조회", description = "과목당 학생수를 조회합니다")
 //    public ResponseEntity<List<CourseVo>> getCourseWithStudentCount() {

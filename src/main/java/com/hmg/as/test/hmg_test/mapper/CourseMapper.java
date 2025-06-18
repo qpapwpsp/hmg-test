@@ -12,5 +12,6 @@ public class CourseMapper {
                 .title(vo.getTitle())
                 .enrollments(new ArrayList<>()) // 초기화 필요
                 .build();
+		
     }
 }

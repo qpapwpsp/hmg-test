@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@Builder
 @NoArgsConstructor
 public class CourseVo {
 
@@ -24,6 +23,7 @@ public class CourseVo {
     private Long professorId;
 
     @QueryProjection
+    @Builder
     public CourseVo(Long id, String title, Long professorId) {
         this.id = id;
         this.title = title;
