@@ -35,10 +35,13 @@ public class CourseVo {
 
     @Schema(description = "최저점수학생명", example = "이최저")
     private String lowestScoreStudentName;
+    
+    @Schema(description = "인기여부 강좌", example = "인기강좌")
+    private String popularCourse;
 
     // Projections.constructor() 대응용 전체 생성자
     public CourseVo(Long id, String title, Long professorId, Long studentCount, Double averageScore,
-                    String professorName, String highestScoreStudentName, String lowestScoreStudentName) {
+                    String professorName, String highestScoreStudentName, String lowestScoreStudentName, String popularCourse) {
         this.id = id;
         this.title = title;
         this.professorId = professorId;
@@ -47,5 +50,6 @@ public class CourseVo {
         this.professorName = professorName;
         this.highestScoreStudentName = highestScoreStudentName;
         this.lowestScoreStudentName = lowestScoreStudentName;
+        this.popularCourse = popularCourse;
     }
 }

@@ -9,6 +9,7 @@ import com.hmg.as.test.hmg_test.entity.QStudent;
 import com.hmg.as.test.hmg_test.vo.CourseVo;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -19,8 +20,8 @@ public class CourseRepositoryImpl  implements CourseRepositoryCustom{
 
     public CourseRepositoryImpl(JPAQueryFactory queryFactory) {
         this.queryFactory = queryFactory;
-    }	
-
+    }
+    
     @Override
     public List<CourseVo> getCourseWithStudentCount(CourseVo courseVo) {
         QCourse course = new QCourse("course");        
@@ -73,17 +74,36 @@ public class CourseRepositoryImpl  implements CourseRepositoryCustom{
         	        ))
         	    );
         
+        
+//        // 최고 점수 학생 이름
+//        StringTemplate highestStudentName = stringTemplate(
+//            "(select s.name from enrollment e join students s on s.id = e.student_id where e.course_id = {0} and e.score = (select max(e2.score) from enrollment e2 where e2.course_id = {0}) limit 1)",
+//            course.id
+//        );
+//
+//        // 최저 점수 학생 이름
+//        StringTemplate lowestStudentName = stringTemplate(
+//            "(select s.name from enrollment e join students s on s.id = e.student_id where e.course_id = {0} and e.score = (select min(e2.score) from enrollment e2 where e2.course_id = {0}) limit 1)",
+//            course.id
+//        );
+        
         return queryFactory
     		    .select(Projections.constructor(
     		            CourseVo.class,
     		            course.id.as("id"),
-    		            course.title.as("title"),
+    		            course.title.toUpperCase().as("title"),
     		            professor.id.as("professorId"),
     		            enrollment.countDistinct().as("studentCount"),
     		            enrollment.score.avg().as("averageScore"),
     		            professor.name.as("professorName"),
     		            highestStudentName, //여기에 StringTemplate 사용
-    		            lowestStudentName   //여기에 StringTemplate 사용
+    		            lowestStudentName,  //여기에 StringTemplate 사용
+    		            new CaseBuilder().when(enrollment.countDistinct().gt(2L))
+    		            .then("인기강좌") 
+    		            .when(enrollment.countDistinct().eq(0L))
+    		            .then("폐강강좌")                                               
+                        .otherwise("비인기강좌")
+                        .as("인기여부")
     		        ))
     		    .from(course)
     		    .leftJoin(course.professor, professor)
