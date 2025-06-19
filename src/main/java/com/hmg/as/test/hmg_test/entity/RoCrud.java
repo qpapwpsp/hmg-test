@@ -1,29 +1,29 @@
 package com.hmg.as.test.hmg_test.entity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Setter
 @Getter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "T_PART_MST")
-public class PartMst {
+@Table(name = "T_RO_INFO")
+public class RoCrud {
 
-	@Id
-	@Column(name = "PT_NO", nullable = false, length = 10)
+	@EmbeddedId
+	private RoNoPk id;
+
+	@Column(name = "VIN", nullable = true, length = 19)
+	private String vin;
+
+	@Column(name = "PT_NO", nullable = true, length = 10)
 	private String ptNo;
-
-	@Column(name = "PT_NM", nullable = true, length = 100)
-	private String ptNm;
 
 }

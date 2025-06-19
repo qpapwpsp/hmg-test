@@ -26,21 +26,21 @@ import lombok.ToString;
 @Table(name = "T_RO_INFO")
 public class RoInfo {
 
-	@EmbeddedId
-	private RoNoPk id;
+    @EmbeddedId
+    private RoNoPk id;
 
-	@Column(name = "VIN", nullable = true, length = 19)
-	private String vin;
+    @Column(name = "VIN", nullable = true, length = 19)
+    private String vin;
 
-	@Column(name = "PT_NO", nullable = true, length = 10, insertable = false, updatable = false)
-	private String ptNo;
+    @Column(name = "PT_NO", nullable = true, length = 10, insertable = false, updatable = false)
+    private String ptNo;
 
-	@OneToOne
-	@JoinColumn(name = "PT_NO")
-	private PartMst partMst;
+    @OneToOne
+    @JoinColumn(name = "PT_NO")
+    private PartMst partMst;
 
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumns({ @JoinColumn(name = "ASN_NO", referencedColumnName = "ASN_NO"),
-			@JoinColumn(name = "RO_NO", referencedColumnName = "RO_NO") })
-	private List<RoPtInfo> roPtInfo;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumns({ @JoinColumn(name = "ASN_NO", referencedColumnName = "ASN_NO"),
+            @JoinColumn(name = "RO_NO", referencedColumnName = "RO_NO") })
+    private List<RoPtInfo> roPtInfo;
 }

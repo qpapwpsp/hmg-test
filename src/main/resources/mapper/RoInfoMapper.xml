@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hmg.as.test.hmg_test.mapper.RoInfoMapper">
+
+    <select id = "selectList" resultType="com.hmg.as.test.hmg_test.entity.RoInfo">
+        /*QurryId=RoInfoMapper.selectList*/
+        SELECT A.ASN_NO
+             , A.RO_NO
+             , A.VIN
+             , B.PT_NO
+             , B.PT_NM
+          FROM T_RO_INFO A
+          LEFT OUTER JOIN T_PART_MST B
+            ON A.PT_NO = B.PT_NO
+         WHERE A.ASN_NO = #{asnNo}
+         ORDER BY A.ASN_NO, A.RO_NO
+         LIMIT 3 OFFSET #{page} 
+    </select>
+
+</mapper>
