@@ -26,6 +26,7 @@ public class Student {
 	@Id @GeneratedValue
     private Long id;
     private String name;
+    private Long grade;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Enrollment> enrollments = new ArrayList<>();

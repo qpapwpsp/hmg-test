@@ -148,9 +148,9 @@ public class EnrollmentServiceImple implements EnrollmentService {
 
 
 	@Override
-	public List<CourseVo> getCourseWithStudentCount() {
+	public List<CourseVo> getCourseWithStudentCount(CourseVo courseVo) {
 		// TODO Auto-generated method stub
-		return courseRepository.getCourseWithStudentCount();
+		return courseRepository.getCourseWithStudentCount(courseVo);
 	}
 
 

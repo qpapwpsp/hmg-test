@@ -28,12 +28,14 @@ public class Enrollment {
     private Long id;
 
     @ManyToOne 
-    @JoinColumn(name = "studentId")
+    @JoinColumn(name = "student_id")
     private Student student;
 
     @ManyToOne 
-    @JoinColumn(name = "courseId")
+    @JoinColumn(name = "course_id")
     private Course course;
+    
+    private Integer score; 
     
     private LocalDateTime createdAt;
 

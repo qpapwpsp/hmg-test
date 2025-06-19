@@ -33,6 +33,6 @@ public class Course {
     private List<Enrollment> enrollments = new ArrayList<>();
     
     @ManyToOne
-    @JoinColumn(name = "professorId")
+    @JoinColumn(name = "professor_id")
     private Professor professor;
 }

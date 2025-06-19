@@ -3,6 +3,7 @@ package com.hmg.as.test.hmg_test.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/")
 @Tag(name = "수강 API", description = "수강 등록 및 조회 관련 API")
@@ -94,10 +96,10 @@ public class EnrollmentController {
         return "Course deleted: ID = " + courseId;
     }
     
-    @GetMapping("/course/studentCount")
+    @PostMapping("/course/studentCount")
     @Operation(summary = "과목당 학생수 조회", description = "과목당 학생수를 조회합니다")
-    public ResponseEntity<List<CourseVo>> getCourseWithStudentCount() {
-        List<CourseVo> result = enrollmentService.getCourseWithStudentCount();
+    public ResponseEntity<List<CourseVo>> getCourseWithStudentCount(@RequestBody CourseVo courseVO) {
+        List<CourseVo> result = enrollmentService.getCourseWithStudentCount(courseVO);
         return ResponseEntity.ok(result);
     }
     
