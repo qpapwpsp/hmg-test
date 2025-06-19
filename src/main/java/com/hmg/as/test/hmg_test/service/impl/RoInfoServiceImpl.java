@@ -2,11 +2,17 @@ package com.hmg.as.test.hmg_test.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hmg.as.test.hmg_test.entity.PartMst;
+import com.hmg.as.test.hmg_test.entity.RoCrud;
 import com.hmg.as.test.hmg_test.entity.RoInfo;
+import com.hmg.as.test.hmg_test.entity.RoInfoPtCnt;
 import com.hmg.as.test.hmg_test.entity.RoNoPk;
 import com.hmg.as.test.hmg_test.entity.RoPtInfo;
+import com.hmg.as.test.hmg_test.mapper.RoInfoMapper;
 import com.hmg.as.test.hmg_test.repository.RoInfoRepository;
 import com.hmg.as.test.hmg_test.service.RoInfoService;
 
@@ -15,102 +21,184 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.CriteriaUpdate;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Subquery;
 import jakarta.transaction.Transactional;
 
 @Service
 public class RoInfoServiceImpl implements RoInfoService {
 
-	@PersistenceContext
-	private EntityManager em;
+    @PersistenceContext
+    private EntityManager em;
 
-	private final RoInfoRepository roInfoRepository;
+    // JPA
+    @Autowired
+    private RoInfoRepository roInfoRepository;
 
-	public RoInfoServiceImpl(RoInfoRepository roInfoRepository) {
-		this.roInfoRepository = roInfoRepository;
-	}
+    // MyBatis
+    @Autowired
+    private RoInfoMapper roInfoMapper;
 
-//	EntityManagerFactory emf = Persistence.createEntityManagerFactory("hmg-test");
-//	EntityManager em = emf.createEntityManager();
-//	EntityTransaction tx = em.getTransaction();
-//	tx.begin();
+    @Override
+    @Transactional
+    public RoInfo getByRoInfo(String asnNo, String roNo) {
 
-//********************************************************************
-//  JPQL 기본 조회
-//	List<Object[]> result = em.createQuery("select info.roNo, info.asnNo, info.vin, info.ptNo, mst.ptNm from EnRoInfo info left outer join EnPartMst mst on info.ptNo = mst.ptNo", Object[].class).getResultList();
-//
-//	int rnum= 1;
-//	for (Object[] row : result) {
-//	    System.out.println("--------------------------");
-//	    System.out.println("RNUM  = " +rnum);
-//	    System.out.println("roNo  = " + (String) row[0]);
-//	    System.out.println("asnNo = " + (String) row[1]);
-//	    System.out.println("vin   = " + (String) row[2]);
-//	    System.out.println("ptNo  = " + (String) row[3]);
-//	    System.out.println("ptNm  = " + (String) row[4]);
-//	}
-//	System.out.println("--------------------------");
-//********************************************************************
+        RoNoPk roNoPk = new RoNoPk(asnNo, roNo);
 
-//	tx.commit();
-//	em.close();
-//	emf.close();
+        RoInfo roInfo = em.find(RoInfo.class, roNoPk);
 
-	@Override
-	@Transactional
-	public RoInfo getByRoInfo(String asnNo, String roNo) {
+        return roInfo;
+    }
 
-		RoNoPk roNoPk = new RoNoPk(asnNo, roNo);
+    @Override
+    @Transactional
+    public List<RoInfo> getByRoInfoKeyList(List<RoNoPk> roNoPkList) {
 
-		RoInfo roInfo = em.find(RoInfo.class, roNoPk);
+        CriteriaBuilder cb = em.getCriteriaBuilder();
 
-		System.out.println("--------- RO --------");
-		System.out.println("ASN_NO = " + roInfo.getId().getAsnNo());
-		System.out.println("RO_NO  = " + roInfo.getId().getRoNo());
-		System.out.println("VIN    = " + roInfo.getVin());
-		System.out.println("PTNO   = " + roInfo.getPtNo());
+        CriteriaQuery<RoInfo> cq = cb.createQuery(RoInfo.class);
 
-		List<RoPtInfo> list = roInfo.getRoPtInfo();
+        Root<RoInfo> root = cq.from(RoInfo.class);
 
-//		System.out.println("-------- PART LIST ---------");
-//		for (RoPtInfo en : list) {
-//			System.out.println("-----------------");
-//			System.out.println(en.toString());
-//		}
-		return roInfo;
-	}
+        cq.select(root).where(root.get("id").in(roNoPkList));
 
-	@Override
-	@Transactional
-	public List<RoInfo> getList(String asnNo, int page) {
+        return em.createQuery(cq).getResultList();
+    }
 
-		int size = 3;
+    @Override
+    @Transactional
+    public List<RoInfo> getList(String asnNo, int page) {
 
-		CriteriaBuilder cb = em.getCriteriaBuilder();
+        int size = 3;
 
-		CriteriaQuery<RoInfo> cq = cb.createQuery(RoInfo.class);
+        CriteriaBuilder cb = em.getCriteriaBuilder();
 
-		Root<RoInfo> rootEntry = cq.from(RoInfo.class);
+        CriteriaQuery<RoInfo> cq = cb.createQuery(RoInfo.class);
 
-		// 1:N 문제 FETCH 해결
-		rootEntry.fetch("partMst", JoinType.LEFT);
+        Root<RoInfo> rootEntry = cq.from(RoInfo.class);
 
-		// order by
-		cq.orderBy(cb.asc(rootEntry.get("id")));
+        // 1:N 문제 FETCH 명시
+        rootEntry.fetch("partMst", JoinType.LEFT);
 
-		CriteriaQuery<RoInfo> all = cq.select(rootEntry).distinct(true);
+        // order by
+        cq.orderBy(cb.asc(rootEntry.get("id")));
 
-		// Paging
-		TypedQuery<RoInfo> allQuery = em.createQuery(all).setFirstResult(page * size).setMaxResults(size);
+        CriteriaQuery<RoInfo> all = cq.select(rootEntry).distinct(true);
 
-		List<RoInfo> roList = allQuery.getResultList();
+        // Paging
+        TypedQuery<RoInfo> allQuery = em.createQuery(all).setFirstResult(page * size).setMaxResults(size);
 
-//		for (RoInfo en : roList) {
-//			System.out.println("-----------------");
-//			System.out.println(en.toString());
-//		}
-		return roList;
-	}
+        List<RoInfo> roList = allQuery.getResultList();
+
+        return roList;
+    }
+
+    public List<RoInfo> getListMybatis(String asnNo, int page) {
+        return roInfoMapper.selectList(asnNo, page);
+    }
+
+    @Override
+    @Transactional
+    public List<RoInfoPtCnt> getRoListPtCnt(String asnNo) {
+
+        /***********************************************
+         * SELECT A.ASN_NO
+         *      , A.RO_NO
+         *      , A.VIN
+         *      , B.PT_NO
+         *      , B.PT_NM
+         *      , ( SELECT COUNT(*)
+         *            FROM T_RO_PART_INFO C
+         *           WHERE A.ASN_NO = C.ASN_NO
+         *             AND A.RO_NO  = C.RO_NO
+         *        ) AS PART_CNT
+         *   FROM T_RO_INFO A
+         *   LEFT OUTER JOIN T_PART_MST B
+         *     ON A.PT_NO = B.PT_NO
+         ***********************************************/
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+
+        CriteriaQuery<RoInfoPtCnt> cq = cb.createQuery(RoInfoPtCnt.class);
+
+        Root<RoInfo> roInfo = cq.from(RoInfo.class);
+
+        // Join to PartMst
+        Join<RoInfo, PartMst> partMst = roInfo.join("partMst", JoinType.LEFT);
+
+        // 상관 서브쿼리: roPtInfo 개수
+        Subquery<Long> subquery = cq.subquery(Long.class);
+
+        Root<RoPtInfo> roPtInfo = subquery.from(RoPtInfo.class);
+
+        subquery.select(cb.count(roPtInfo));
+        subquery.where(
+                cb.equal(roPtInfo.get("asnNo"), roInfo.get("id").get("asnNo")),
+                cb.equal(roPtInfo.get("roNo"), roInfo.get("id").get("roNo"))
+        );
+
+        // 최종 select
+        cq.select(cb.construct(
+                RoInfoPtCnt.class,
+                roInfo.get("id").get("asnNo"),
+                roInfo.get("id").get("roNo"),
+                roInfo.get("vin"),
+                partMst.get("ptNo"),
+                partMst.get("ptNm"),
+                subquery.getSelection()
+        ));
+        return em.createQuery(cq).getResultList();
+    }
+
+    @Override
+    public RoCrud insert(RoCrud roCrud) {
+        return roInfoRepository.save(roCrud);
+    }
+
+    @Override
+    public RoCrud update(RoCrud roCrud) {
+        return roInfoRepository.save(roCrud);
+    }
+
+    @Override
+    @Transactional
+    public RoCrud updateByColumn(RoCrud roCrud) {
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+
+        CriteriaUpdate<RoCrud> criteriaUpdate = cb.createCriteriaUpdate(RoCrud.class);
+
+        Root<RoCrud> root = criteriaUpdate.from(RoCrud.class);
+
+        /********************************************************/
+        // 필수 업데이트 SET 할 필드 추가
+        criteriaUpdate.set(root.get("ptNo"), roCrud.getPtNo());
+
+        // 선택적으로 SET 할 필드 추가
+        if (StringUtils.isNotBlank(roCrud.getVin())) {
+            criteriaUpdate.set(root.get("vin"), roCrud.getVin());
+        }
+        /********************************************************/
+
+        em.createQuery(criteriaUpdate).executeUpdate();
+
+        // 후처리
+        return roCrud;
+    }
+
+    @Override
+    public String delete(RoNoPk roNoPk) {
+        String result = "";
+        try {
+            roInfoRepository.deleteById(roNoPk);
+            result = "정상 삭제 성공";
+        } catch (Exception e) {
+            result = "삭제 실패";
+        }
+        return result;
+    }
 
 }
