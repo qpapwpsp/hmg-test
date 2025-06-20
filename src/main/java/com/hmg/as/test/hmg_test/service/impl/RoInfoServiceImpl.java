@@ -43,6 +43,25 @@ public class RoInfoServiceImpl implements RoInfoService {
     private RoInfoMapper roInfoMapper;
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
+    public String test() throws Exception {
+        String strResult = "성공";
+
+        int cnt = roInfoMapper.test();
+
+        RoCrud roCrud = em.find(RoCrud.class, new RoNoPk("203000", "202506W000001"));
+
+        roCrud.setVin("JPA TEST");
+
+        roInfoRepository.save(roCrud);
+
+        if(true) {
+            throw new Exception("롤백테스트");
+        }
+        return strResult;
+    }
+
+    @Override
     @Transactional
     public RoInfo getByRoInfo(String asnNo, String roNo) {
 
@@ -62,6 +81,8 @@ public class RoInfoServiceImpl implements RoInfoService {
         CriteriaQuery<RoInfo> cq = cb.createQuery(RoInfo.class);
 
         Root<RoInfo> root = cq.from(RoInfo.class);
+
+        root.fetch("partMst", JoinType.LEFT);
 
         cq.select(root).where(root.get("id").in(roNoPkList));
 
@@ -96,7 +117,8 @@ public class RoInfoServiceImpl implements RoInfoService {
         return roList;
     }
 
-    public List<RoInfo> getListMybatis(String asnNo, int page) {
+    @Override
+    public List<RoInfoPtCnt> getListMybatis(String asnNo, int page) {
         return roInfoMapper.selectList(asnNo, page);
     }
 
@@ -156,6 +178,13 @@ public class RoInfoServiceImpl implements RoInfoService {
     @Override
     public RoCrud insert(RoCrud roCrud) {
         return roInfoRepository.save(roCrud);
+    }
+
+    @Transactional
+    @Override
+    public RoInfo insertJpa(RoInfo roInfo) {
+        em.merge(roInfo);
+        return roInfo;
     }
 
     @Override

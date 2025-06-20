@@ -15,7 +15,7 @@ public interface RoInfoService {
 
     List<RoInfo> getList(String asnNo, int page);
     
-    List<RoInfo> getListMybatis(String asnNo, int page);
+    List<RoInfoPtCnt> getListMybatis(String asnNo, int page);
 
     RoCrud insert(RoCrud roCrud);
 
@@ -26,5 +26,9 @@ public interface RoInfoService {
     String delete(RoNoPk roNoPk);
 
     List<RoInfoPtCnt> getRoListPtCnt(String asnNo);
+
+    String test() throws Exception ;
+
+    RoInfo insertJpa(RoInfo roInfo);
 
 }

@@ -4,7 +4,7 @@
 
 <mapper namespace="com.hmg.as.test.hmg_test.mapper.RoInfoMapper">
 
-    <select id = "selectList" resultType="com.hmg.as.test.hmg_test.entity.RoInfo">
+    <select id = "selectList" resultType="com.hmg.as.test.hmg_test.entity.RoInfoPtCnt">
         /*QurryId=RoInfoMapper.selectList*/
         SELECT A.ASN_NO
              , A.RO_NO
@@ -18,5 +18,13 @@
          ORDER BY A.ASN_NO, A.RO_NO
          LIMIT 3 OFFSET #{page} 
     </select>
+
+    <update id = "test">
+        /*QurryId=RoInfoMapper.test*/
+        UPDATE T_RO_INFO
+           SET VIN    = 'MYBATIS TEST'
+         WHERE ASN_NO = '203000'
+           AND RO_NO  = '202506W000001'
+    </update>
 
 </mapper>
