@@ -29,6 +29,12 @@ public class RoNoController {
     @Autowired
     private RoInfoService roInfoService;
 
+    @Operation(summary = "마이바티스 JPA 테스트(하드코딩)", description = "마이바티스 JPA 테스트(하드코딩)")
+    @GetMapping("/test")
+    public String test(Model model) throws Exception {
+        return roInfoService.test();
+    }
+
     @Operation(summary = "RO 정보 조회 API(단건 KEY 조회)", description = "RO 정보 조회 API 입니다.(단건 KEY 조회)")
     @GetMapping("/search")
     public RoInfo searchByRoNo(@RequestParam("asnNo") String asnNo, @RequestParam("roNo") String roNo, Model model) {
@@ -49,7 +55,7 @@ public class RoNoController {
 
     @Operation(summary = "RO 목록 조회 API(MyBatis)", description = "RO 목록 조회 API 입니다.(MyBatis)")
     @GetMapping("/searchListMybatis")
-    public List<RoInfo> searchListMybatis(@RequestParam("asnNo") String asnNo, int page, Model model) {
+    public List<RoInfoPtCnt> searchListMybatis(@RequestParam("asnNo") String asnNo, int page, Model model) {
         return roInfoService.getListMybatis(asnNo, page);
     }
 
@@ -63,6 +69,12 @@ public class RoNoController {
     @PostMapping("/insert")
     public RoCrud insert(@RequestBody RoCrud roCrud, Model model) {
         return roInfoService.insert(roCrud);
+    }
+
+    @Operation(summary = "RO 저장 API (JPA 객체 (테이블3개 저장 버전))", description = "RO 저장 API 입니다. (JPA 객체 (테이블3개 저장 버전))")
+    @PostMapping("/insertJpa")
+    public RoInfo insert(@RequestBody RoInfo roInfo, Model model) {
+        return roInfoService.insertJpa(roInfo);
     }
 
     @Operation(summary = "RO 수정 API", description = "RO 수정 API 입니다.")
