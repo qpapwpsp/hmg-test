@@ -52,4 +52,17 @@ public class CourseVo {
         this.lowestScoreStudentName = lowestScoreStudentName;
         this.popularCourse = popularCourse;
     }
+//    
+//    // Projections.constructor() 대응용 전체 생성자
+//    public CourseVo(Long id, String title, Long professorId, Long studentCount, Double averageScore,
+//                    String professorName, String highestScoreStudentName, String lowestScoreStudentName) {
+//        this.id = id;
+//        this.title = title;
+//        this.professorId = professorId;
+//        this.studentCount = studentCount;
+//        this.averageScore = averageScore;
+//        this.professorName = professorName;
+//        this.highestScoreStudentName = highestScoreStudentName;
+//        this.lowestScoreStudentName = lowestScoreStudentName;
+//    }
 }

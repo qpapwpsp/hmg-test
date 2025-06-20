@@ -1,5 +1,6 @@
 package com.hmg.as.test.hmg_test.repository;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.hmg.as.test.hmg_test.entity.QCourse;
@@ -14,6 +15,54 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+/**
+ * 수행되는 쿼리
+ *  SELECT
+	        COURSE.ID,
+	        UPPER(COURSE.TITLE),
+	        PROFESSOR.ID,
+	        COUNT(DISTINCT ENROLLMENT.ID),
+	        AVG(ENROLLMENT.SCORE),
+	        PROFESSOR.NAME,
+	        (SELECT S1_0.NAME 
+	           FROM ENROLLMENT E2_0 
+	           JOIN STUDENTS S1_0 
+	             ON S1_0.ID=E2_0.STUDENT_ID 
+	          WHERE E2_0.COURSE_ID=COURSE.ID 
+	            AND E2_0.SCORE=(
+	                SELECT MAX(E3_0.SCORE) 
+	                  FROM ENROLLMENT E3_0 
+	                 where E3_0.COURSE_ID=COURSE.ID
+	               )),
+	        (SELECT STUDENT.NAME 
+	           FROM ENROLLMENT E4_0 
+	           JOIN STUDENTS STUDENT 
+	             ON STUDENT.ID=E4_0.STUDENT_ID 
+	          WHERE E4_0.COURSE_ID=COURSE.ID 
+	            AND E4_0.SCORE=(
+	                SELECT MIN(E5_0.SCORE) 
+	                  FROM ENROLLMENT E5_0 
+	                 WHERE E5_0.COURSE_ID=COURSE.ID
+	               )),
+	        CASE WHEN (COUNT(DISTINCT ENROLLMENT.ID)>?) THEN CAST(? AS TEXT) 
+	             WHEN (COUNT(DISTINCT ENROLLMENT.ID)=?) THEN CAST(? AS TEXT) 
+	             ELSE '비인기강좌' 
+	        END 
+	  FROM COURSE COURSE 
+	  LEFT JOIN PROFESSOR PROFESSOR 
+	    ON PROFESSOR.ID=COURSE.PROFESSOR_ID 
+	  LEFT JOIN ENROLLMENT ENROLLMENT 
+	    ON COURSE.ID=ENROLLMENT.COURSE_ID 
+	 WHERE PROFESSOR.ID IN (?, ?) 
+	 GROUP BY
+		   COURSE.ID,
+		   COURSE.TITLE,
+		   PROFESSOR.ID,
+		   PROFESSOR.NAME 
+	 ORDER BY
+	       COURSE.ID
+ * 
+ */
 public class CourseRepositoryImpl  implements CourseRepositoryCustom{
 	
 	private final JPAQueryFactory queryFactory;
@@ -24,7 +73,7 @@ public class CourseRepositoryImpl  implements CourseRepositoryCustom{
     
     @Override
     public List<CourseVo> getCourseWithStudentCount(CourseVo courseVo) {
-        QCourse course = new QCourse("course");        
+        QCourse course = QCourse.course;//new QCourse("course");        
         QEnrollment enrollment = new QEnrollment("enrollment");
         QProfessor professor = new QProfessor("professor");    
         QStudent student = new QStudent("student");
@@ -43,10 +92,15 @@ public class CourseRepositoryImpl  implements CourseRepositoryCustom{
         	where.and(course.professor.name.containsIgnoreCase(courseVo.getProfessorName())); // where course.professorName like '%자료구조%'의 의미
         }
         
+       // WHERE PROFESSOR.ID IN (1,2)        
+        List<Long> professorIds = Arrays.asList(1L, 2L);
+        where.and(course.professor.id.in(professorIds)); 
+        
         //where에 subquery하고 싶을때는 subquery작성후, where.and(작성한 subquery)붙이면 간단히 해결됨 
         QEnrollment maxEnroll = new QEnrollment("maxEnroll");
         QEnrollment minEnroll = new QEnrollment("minEnroll");
-
+        
+        /*SUB QUERY*/
         JPQLQuery<String> highestStudentName = JPAExpressions
             .select(student.name)
             .from(maxEnroll)
@@ -86,6 +140,8 @@ public class CourseRepositoryImpl  implements CourseRepositoryCustom{
 //            "(select s.name from enrollment e join students s on s.id = e.student_id where e.course_id = {0} and e.score = (select min(e2.score) from enrollment e2 where e2.course_id = {0}) limit 1)",
 //            course.id
 //        );
+        
+
         
         return queryFactory
     		    .select(Projections.constructor(
