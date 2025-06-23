@@ -42,6 +42,13 @@ public class EnrollmentController {
         return ResponseEntity.ok(result);
     }
     
+    @GetMapping("/{courseId}")
+    @Operation(summary = "과목정보 조회", description = "과목 정보를 조회합니다")
+    public ResponseEntity<CourseVo> getCourseInfo(@PathVariable Long courseId) {
+    	CourseVo result = enrollmentService.getCourseInfo(courseId);
+        return ResponseEntity.ok(result);
+    }
+    
     @GetMapping("/course/{title}")
     @Operation(summary = "이름으로 과목 조회", description = "과목 이름으로 목록을 조회합니다")
     public ResponseEntity<List<CourseVo>> getCoursesByTitle(String title) {

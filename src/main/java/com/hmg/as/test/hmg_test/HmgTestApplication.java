@@ -2,8 +2,10 @@ package com.hmg.as.test.hmg_test;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
+@EnableJpaAuditing
 public class HmgTestApplication {
 
 	public static void main(String[] args) {

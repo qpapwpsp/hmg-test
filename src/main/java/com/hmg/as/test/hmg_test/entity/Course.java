@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -23,7 +24,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor 
 @NoArgsConstructor
-public class Course {
+public class Course extends BaseEntity {
     @Id @GeneratedValue
     private Long id;
     private String title;
@@ -32,7 +33,7 @@ public class Course {
     @OneToMany(mappedBy = "course")
     private List<Enrollment> enrollments = new ArrayList<>();
     
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY) //지연로딩 
     @JoinColumn(name = "professor_id")
-    private Professor professor;
+    private Professor professor;  // 지연로딩 설정시, 연관관계에 있는 professort정보 접근하는 시점에 professor테이블의 조회 쿼리를 실행함 (professor은 proxy 객체로 가지고 있음)
 }

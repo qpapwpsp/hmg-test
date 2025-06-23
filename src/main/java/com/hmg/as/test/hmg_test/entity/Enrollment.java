@@ -1,14 +1,11 @@
 package com.hmg.as.test.hmg_test.entity;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,31 +20,19 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Enrollment {
+public class Enrollment extends BaseEntity{
     @Id @GeneratedValue
     private Long id;
 
-    @ManyToOne 
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private Student student;
 
-    @ManyToOne 
+    @ManyToOne(fetch=FetchType.LAZY) 
     @JoinColumn(name = "course_id")
     private Course course;
     
     private Integer score; 
     
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = this.updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
+    
 }

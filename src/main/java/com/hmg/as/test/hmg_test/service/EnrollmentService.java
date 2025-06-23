@@ -19,4 +19,5 @@ public interface EnrollmentService {
 	void deleteStudent(Long studentId);
 	List<CourseVo> getCourseWithStudentCount(CourseVo courseVO);
 	List<CourseVo> getCourseWithStudentCountWithSubQuery();
+	CourseVo getCourseInfo(Long courseId);
 }

@@ -22,7 +22,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Student {
+public class Student extends BaseEntity{
 	@Id @GeneratedValue
     private Long id;
     private String name;
