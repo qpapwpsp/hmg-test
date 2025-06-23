@@ -139,6 +139,7 @@ public class EnrollmentServiceImple implements EnrollmentService {
 	@Override
 	public List<CourseVo> getCourseWithStudentCountWithSubQuery() {
 		// TODO Auto-generated method stub
+		
 		return courseRepository.getCourseWithStudentCountWithSubQuery();
 	}
 
@@ -146,8 +147,7 @@ public class EnrollmentServiceImple implements EnrollmentService {
 	public CourseVo getCourseInfo(Long courseId) {
 		// TODO Auto-generated method stub
 		Course course = courseRepository.findById(courseId).orElseThrow(() -> new RuntimeException("강좌를 찾을 수 없습니다"));
-		CourseVo courseVo = new CourseVo();
-		courseVo.builder()
+		CourseVo courseVo= CourseVo.builder()
 			.id(course.getId())
 			.title(course.getTitle())
 			.professorId(course.getProfessor().getId())

@@ -28,6 +28,8 @@ public class Student extends BaseEntity{
     private String name;
     private Long grade;
 
+    /*cascade: 영속화할때 연관된 리스트도 자동으로 같이 영속화 처리함*/
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Enrollment> enrollments = new ArrayList<>();
+    private List<Enrollment> enrollments = new ArrayList<>();  
 }
+ 
