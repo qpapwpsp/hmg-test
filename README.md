@@ -33,8 +33,10 @@ src/main/resources/
   
 [Swagger 링크](http://localhost:8080/swagger-ui/index.html)
 
-
-
+### gitHub 로컬에 내려받기
+```java
+git clone https://github.com/qpapwpsp/hmg-test.git
+```
 
 
 
