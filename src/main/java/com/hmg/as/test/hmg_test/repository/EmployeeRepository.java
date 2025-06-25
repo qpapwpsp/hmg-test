@@ -15,17 +15,17 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     
     @Query("SELECT e "
       	  +  "FROM Employee e "
-          +  "JOIN FETCH e.department "
+          +  "JOIN FETCH e.department a "
       	  +  "ORDER BY e.employeeId DESC")
     List<Employee> findAllWithDepartment();
     
     @Query("SELECT e "
         + "   FROM Employee e "
-    		+ "   JOIN FETCH e.department"
+    		+ "   JOIN FETCH e.department a "
     		+ "  WHERE e.employeeId = :id"
         + "  ORDER BY e.employeeId DESC")
     List<Employee> findByIdWithDepartment(@Param("id") Long id);
 
     @Procedure("public.update_employee_department_job")
-    void updateEmployeeDepartmentJob(@Param("employee_id") int employeeId);
+    void updateEmployeeDepartmentJob(@Param("id") int employeeId); // @Param인자는 프로시저 내의 파라미터 변수 이름과 일치하여야 함
 }
