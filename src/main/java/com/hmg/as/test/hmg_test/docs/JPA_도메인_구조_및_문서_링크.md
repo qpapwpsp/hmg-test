@@ -9,9 +9,11 @@
 
 ### 🔸 Controller 설명
 - [🖥️ EnrollmentController 설명](./controller/EnrollmentController.md)
+- [🖥️ PostgresEntityGeneratorController 설명](./controller/PostgresEntityGeneratorController.md)
 
 ### 🔸 Service 설명
-- [⚙️ EnrollmentService 설명](./Service/EnrollmentService.md)
+- [⚙️ EnrollmentService 설명](./service/EnrollmentService.md)
+- [⚙️ PostgresEntityGeneratorService 설명](./service/PostgresEntityGeneratorService.md)
 
 ### 🔸 Repository 설명
 - [📁 Enrollment과 관련된 Repository 설명](./repository/Enrollment.md)
