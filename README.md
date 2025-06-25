@@ -40,7 +40,7 @@ git clone https://github.com/qpapwpsp/hmg-test.git
 [Swagger 링크](http://localhost:8080/swagger-ui/index.html)
 
 ### 샘플
-1. JPA(Hybernate)  
+1. JPA  
     1. EmployeeServiceImpl.java  
 2. QueryDSL  
     1. EnrollmentServiceImple.java  
