@@ -16,8 +16,8 @@ Spring Boot와 JPA를 중심으로 한 기술 스택에 대한 이해와 활용 
 
 ## 프로젝트 구조
 src/main/java/com/hmg/as/test/hmg_test/  
-├── config/　　　　　　　// 환경 설정 관련 (JPA 설정, DB 설정 등)  
-├── controller/　　　　　// REST API 엔드포인트 정의  
+├── config/             // 환경 설정 관련 (JPA 설정, DB 설정 등)  
+├── controller/         // REST API 엔드포인트 정의  
 ├── entity/             // JPA 엔티티 (데이터 모델)  
 ├── mapper/             // MyBatis Mapper 인터페이스 (및 MybatisFramework 3.0.4)  
 ├── repository/         // JPA Repository 인터페이스  
