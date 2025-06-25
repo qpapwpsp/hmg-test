@@ -47,26 +47,3 @@ http://localhost:8080/swagger-ui/index.html
 //자동리로드 
 application.properties -> spring.servlet.jsp.init-parameters.development=true 추가
 
-
-# 프로젝트 이름
-
-Spring Boot, JPA, react.js 기반 모바일 애플리케이션
-
-## 📌 소개
-
-이 프로젝트는 Spring Boot, JPA, JSP를 기반으로 한 CRUD 웹 애플리케이션입니다.  
-직원 관리, 부서 관리, 급여 조회 등의 기능을 제공합니다.
-
-## 🔧 기술 스택
-
-- Java 17
-- Spring Boot 3.x
-- JPA (Hibernate)
-- JSP
-- QueryDSL
-- PostgreSQL
-- Lombok
-- JSTL
-
-## 📂 프로젝트 구조
-
