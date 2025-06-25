@@ -41,11 +41,11 @@ git clone https://github.com/qpapwpsp/hmg-test.git
 
 ### 샘플
 1. JPA(Hybernate)  
-  1. EmployeeServiceImpl.java  
+    1. EmployeeServiceImpl.java  
 2. QueryDSL  
-  1. EnrollmentServiceImple.java  
+    1. EnrollmentServiceImple.java  
 3. criteria  
-  1. RoInfoServiceImpl.java  
+    1. RoInfoServiceImpl.java  
   
   
 -----------------------------------------
