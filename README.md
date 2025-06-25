@@ -47,3 +47,21 @@ http://localhost:8080/swagger-ui/index.html
 //자동리로드 
 application.properties -> spring.servlet.jsp.init-parameters.development=true 추가
 
+
+# AS 영역 IT 프로젝트 및 DevOps 추진
+Spring Boot, JPA, react.js 기반 모바일 애플리케이션
+
+## 소개
+이 프로젝트는 Spring Boot, JPA, re
+
+## 기술 스택
+- Java 17
+- Spring Boot 3.4.6
+- JPA (Hibernate) 
+- react.js 
+- QueryDSL 5.0.0
+- PostgreSQL
+- Mybatis Framework 3.0.4
+
+## 프로젝트 구조
+- 작성예정
