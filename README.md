@@ -30,37 +30,26 @@ src/main/resources/
 ├── META-INF/  
 │   └── persistence.xml    // JPA 관련 설정  
 └── application.properties // 애플리케이션 설정 파일  
-  
-[Swagger 링크](http://localhost:8080/swagger-ui/index.html)
 
 ### gitHub 로컬에 내려받기
 ```java
 git clone https://github.com/qpapwpsp/hmg-test.git
 ```
 
+### Swagger 링크
+[Swagger 링크](http://localhost:8080/swagger-ui/index.html)
 
-
-
-
-
------------------------------------------
 # 샘플
-
-
-
-
+1. JPA(Hybernate)  
+ 1. EmployeeServiceImpl.java  
+3. QueryDSL  
+ 1. EnrollmentServiceImple.java  
+3. criteria  
+ 1. RoInfoServiceImpl.java  
   
-* 목록1
-* 목록2
- * 목록2-1
- * 목록2-2
-* 목록3
+  
+-----------------------------------------
 
-1. 목록1
-2. 목록2
- 1. 목록2-1
- 2. 목록2-2
-3. 목록3
 
 ** BOLD **
 __ BOLD __
