@@ -26,10 +26,10 @@ __ BOLD __
 파이썬에서 `print()` 함수는 출력을 담당합니다.
 
 코드블럭('''java)
-'''java
-RoNoPk roNoPk = new RoNoPk(asnNo, roNo);
-RoInfo roInfo = em.find(RoInfo.class, roNoPk);
-'''
+```java
+    RoNoPk roNoPk = new RoNoPk(asnNo, roNo);
+    RoInfo roInfo = em.find(RoInfo.class, roNoPk);
+    ```
 
 테이
 | 헤더 1 | 헤더 2 | 헤더 3 |
