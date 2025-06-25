@@ -29,7 +29,7 @@ __ BOLD __
 ```java
     RoNoPk roNoPk = new RoNoPk(asnNo, roNo);
     RoInfo roInfo = em.find(RoInfo.class, roNoPk);
-    ```
+```
 
 테이
 | 헤더 1 | 헤더 2 | 헤더 3 |
