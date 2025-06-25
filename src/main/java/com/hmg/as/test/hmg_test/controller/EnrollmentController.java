@@ -1,5 +1,7 @@
 package com.hmg.as.test.hmg_test.controller;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -118,4 +120,17 @@ public class EnrollmentController {
     }
     
     
+    @GetMapping("/createEntity/{tableName}")
+    @Operation(summary = "해당 테이블의 Entity template 자동생성", description = "해당 테이블의 Entity template를 자동생성한다.")
+    public ResponseEntity<String> createEntityTemplate(@PathVariable String tableName)  {              
+        
+        try {
+			enrollmentService.createEntityTemplate(tableName);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return ResponseEntity.badRequest().body("❌ 오류: " + e.getMessage());
+		}        
+        return ResponseEntity.ok("✅ Entity template 생성 완료: " + tableName);
+        
+    }    
 }

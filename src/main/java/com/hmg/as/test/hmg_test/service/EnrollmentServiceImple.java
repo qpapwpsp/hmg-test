@@ -1,7 +1,6 @@
 package com.hmg.as.test.hmg_test.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -34,14 +33,17 @@ public class EnrollmentServiceImple implements EnrollmentService {
 //	private final CourseRepositoryImpl courseRepositoryImpl;
 	private final ProfessorRepository professorRepository;
 	private final JPAQueryFactory queryFactory;
+	
+	private PostgresEntityGeneratorService entitygenerator;
 
 	public EnrollmentServiceImple(EnrollmentRepository enrollmentRepository, StudentRepository studentRepository,
-			CourseRepository courseRepository, ProfessorRepository professorRepository, JPAQueryFactory queryFactory) {
+			CourseRepository courseRepository, ProfessorRepository professorRepository, JPAQueryFactory queryFactory,PostgresEntityGeneratorService entitygenerator) {
 		this.enrollmentRepository = enrollmentRepository;
 		this.studentRepository = studentRepository;
 		this.courseRepository = courseRepository;
 		this.professorRepository = professorRepository;
 		this.queryFactory = queryFactory;
+		this.entitygenerator = entitygenerator;
 		// this.courseRepositoryImpl=courseRepositoryImpl;
 	}
 
@@ -138,8 +140,7 @@ public class EnrollmentServiceImple implements EnrollmentService {
 
 	@Override
 	public List<CourseVo> getCourseWithStudentCountWithSubQuery() {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 		return courseRepository.getCourseWithStudentCountWithSubQuery();
 	}
 
@@ -155,6 +156,17 @@ public class EnrollmentServiceImple implements EnrollmentService {
 			.build();
 		
 		return courseVo;
+	}
+
+	@Override
+	public void createEntityTemplate(String tableName) throws Exception {
+		// TODO Auto-generated method stub
+		try {
+			this.entitygenerator.generateEntity(tableName);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw e;
+		}
 	}
 
 }

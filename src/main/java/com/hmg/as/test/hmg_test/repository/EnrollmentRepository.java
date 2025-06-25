@@ -2,11 +2,9 @@ package com.hmg.as.test.hmg_test.repository;
 
 import java.util.List;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.hmg.as.test.hmg_test.entity.Course;
 import com.hmg.as.test.hmg_test.entity.Enrollment;
 import com.hmg.as.test.hmg_test.vo.EnrollVo;
 

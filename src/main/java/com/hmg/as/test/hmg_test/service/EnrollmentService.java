@@ -1,5 +1,7 @@
 package com.hmg.as.test.hmg_test.service;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import com.hmg.as.test.hmg_test.vo.CourseVo;
@@ -20,4 +22,5 @@ public interface EnrollmentService {
 	List<CourseVo> getCourseWithStudentCount(CourseVo courseVO);
 	List<CourseVo> getCourseWithStudentCountWithSubQuery();
 	CourseVo getCourseInfo(Long courseId);
+	void createEntityTemplate(String tableName) throws Exception;
 }
