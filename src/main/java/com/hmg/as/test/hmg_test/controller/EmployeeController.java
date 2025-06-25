@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.hmg.as.test.hmg_test.entity.Employee;
 import com.hmg.as.test.hmg_test.service.DepartmentService;
 import com.hmg.as.test.hmg_test.service.EmployeeService;
+import com.hmg.as.test.hmg_test.vo.EmployeeSalaryVo;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -47,8 +47,10 @@ public class EmployeeController {
 
     @GetMapping()
     public String viewEmployeeList(Model model) {
-        List<Employee> employees = employeeService.findAllWithDepartment();
+        List<Employee> employees              = employeeService.findAllWithDepartment();
+        List<EmployeeSalaryVo> salaryRankList = employeeService.getEmployeeSalaryRank();
         model.addAttribute("employees", employees);
+        model.addAttribute("salaryRankList", salaryRankList);
         return "employees"; // employees.jsp
     }
 
@@ -73,14 +75,16 @@ public class EmployeeController {
             if("".equals(id) ||  Objects.isNull(id)){
                 model.addAttribute("employees", employeeService.findAllWithDepartment());
             } else {
-            List<Employee> employees = employeeService.getByIdWithDepartment(id);
-            if(employees.size() > 0) {
-                    model.addAttribute("employees", employees);
-            } else {
-                model.addAttribute("error", "해당 ID의 직원이 존재하지 않습니다.");
-                model.addAttribute("employees", employeeService.findAllWithDepartment());
+                List<Employee> employees = employeeService.getByIdWithDepartment(id);
+                if(employees.size() > 0) {
+                        model.addAttribute("employees", employees);
+                } else {
+                    model.addAttribute("error", "해당 ID의 직원이 존재하지 않습니다.");
+                    model.addAttribute("employees", employeeService.findAllWithDepartment());
+                }
             }
-            }
+            List<EmployeeSalaryVo> salaryRankList = employeeService.getEmployeeSalaryRank();
+            model.addAttribute("salaryRankList", salaryRankList);
         return "employees";
     }
 

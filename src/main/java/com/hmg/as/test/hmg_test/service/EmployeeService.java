@@ -2,9 +2,8 @@ package com.hmg.as.test.hmg_test.service;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.Query;
-
 import com.hmg.as.test.hmg_test.entity.Employee;
+import com.hmg.as.test.hmg_test.vo.EmployeeSalaryVo;
 
 public interface EmployeeService {
 	// 전체조회
@@ -21,4 +20,6 @@ public interface EmployeeService {
     Employee getById(Long id);
     // 프로시저호출
     void updateEmployeeJob(Long employeeId);
+    // 계
+    List<EmployeeSalaryVo> getEmployeeSalaryRank();
 }
