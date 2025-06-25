@@ -1,13 +1,13 @@
 # AS 영역 IT 프로젝트 및 DevOps 추진
-##제목2
-###제목3
-####제목4
+## 제목2
+### 제목3
+#### 제목4
 
-*목록1
-*목록2
- *목록2-1
- *목록2-2
-*목록3
+* 목록1
+* 목록2
+ * 목록2-1
+ * 목록2-2
+* 목록3
 
 1. 목록1
 2. 목록2
@@ -26,7 +26,7 @@ __ BOLD __
 파이썬에서 `print()` 함수는 출력을 담당합니다.
 
 코드블럭('''java)
-'''java
+'''java 
 RoNoPk roNoPk = new RoNoPk(asnNo, roNo);
 RoInfo roInfo = em.find(RoInfo.class, roNoPk);
 
