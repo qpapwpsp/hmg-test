@@ -31,7 +31,7 @@ src/main/resources/
 │   └── persistence.xml    // JPA 관련 설정  
 └── application.properties // 애플리케이션 설정 파일  
   
-[Swagger 링크]([https://www.google.com](http://localhost:8080/swagger-ui/index.html))
+[Swagger 링크](http://localhost:8080/swagger-ui/index.html)
 
 
 
