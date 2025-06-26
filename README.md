@@ -46,33 +46,3 @@ git clone https://github.com/qpapwpsp/hmg-test.git
     1. EnrollmentServiceImple.java  
 3. criteria  
     1. RoInfoServiceImpl.java  
-  
-  
------------------------------------------
-
-
-** BOLD **
-__ BOLD __
-~~ 취소선 ~~
-
-코드 (' ')
-파이썬에서 `print()` 함수는 출력을 담당합니다.
-
-코드블럭('''java)
-```java
-    RoNoPk roNoPk = new RoNoPk(asnNo, roNo);
-    RoInfo roInfo = em.find(RoInfo.class, roNoPk);
-```
-
-테이
-| 헤더 1 | 헤더 2 | 헤더 3 |
-|:-------|:------:|-------:|
-| 내용 1-1 | 내용 1-2 | 내용 1-3 |
-| 내용 2-1 | 내용 2-2 | 내용 2-3 |
-
-체크박스
-- [x] 완료된 할 일
-- [ ] 미완료 할 일
-
-//자동리로드 
-application.properties -> spring.servlet.jsp.init-parameters.development=true 추가
